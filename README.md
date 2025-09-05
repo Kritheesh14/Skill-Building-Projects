@@ -14,6 +14,7 @@
 | 🤖 AI Assistant | Notebook | Demonstrates a simple text-based assistant using Python libraries. |
 | ⚗ Chemistry Lab Graph Generator | Notebook | Generates graphs from lab data for analysis and visualization. Has all the default data required for each experiment. Specially curated for 2024-25 batch - Chemistry Cycle Lab students |
 | 📊 Population Analysis | Notebook | Analyzes and visualizes population data trends. Features allow prediction of probable population at given using Linear Regression |
+| 🌐 Webscraping | Script/Notebook | Scrapes data (IMDB), cleans it, and produces dark-themed visualizations & CSV exports. |
 
 ---
 ### Clone this repo
