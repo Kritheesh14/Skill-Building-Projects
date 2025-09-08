@@ -1,0 +1,105 @@
+<html>
+<head>
+  <title>Samarpana Run Registration</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="tb">
+  Samarpana Run
+</div>
+<div class="ts">
+  <h2>For the Indian Army!</h2>
+  <p id="datetime"></p>
+</div>
+<div class="greenbar">
+  Registration Form
+</div>
+<div class="formcontainer">
+  <form id="registrationForm">
+    <div class="formrow">
+      <div class="formgroup">
+        <label>Full Name *</label>
+        <input type="text" id="fullName" required placeholder="e.g, Aanya Rao">
+      </div>
+      <div class="formgroup">
+        <label>Email *</label>
+        <input type="email" id="email" required placeholder="e.g, aanya@college.edu">
+      </div>
+    </div>
+    <div class="formrow">
+      <div class="formgroup">
+        <label>Mobile Number *</label>
+        <input type="tel" id="mobile" pattern="[0-9]{10}" required placeholder="e.g,9876543210">
+      </div>
+      <div class="formgroup">
+        <label>Date of Birth *</label>
+        <input type="date" id="dob" required>
+      </div>
+    </div>
+    <div class="formrow">
+      <div class="formgroup">
+        <label>University/Organization *</label>
+        <input type="text" id="university" required placeholder="e.g, PES University">
+      </div>
+      <div class="formgroup">
+        <label>USN (College ID) *</label>
+        <input type="text" id="usn" required placeholder="e.g, PES1UG24CS599">
+      </div>
+    </div>
+    <div class="formrow">
+      <div class="formgroup">
+        <label>City</label>
+        <input type="text" id="city" placeholder="e.g, Bengaluru">
+      </div>
+      <div class="formgroup">
+        <label>State</label>
+        <input type="text" id="state" placeholder="e.g, Karnataka">
+      </div>
+    </div>
+    <div class="formrow">
+      <div class="formgroup">
+        <label>Pincode</label>
+        <input type="text" id="pincode" pattern="[0-9]{6}" placeholder="e.g, 560085">
+      </div>
+      <div class="formgroup">
+        <label>T-shirt Size *</label>
+        <select id="tshirt" required>
+          <option value="">Select size</option>
+          <option value="XS">XS</option>
+          <option value="S">S</option>
+          <option value="M">M</option>
+          <option value="L">L</option>
+          <option value="XL">XL</option>
+          <option value="XXL">XXL</option>
+          <option value="3XL">3XL</option>
+        </select>
+      </div>
+    </div>
+    <table>
+      <tr>
+        <th>Size</th>
+        <th>Chest (in)</th>
+        <th>Chest (cm)</th>
+        <th>Length (cm)</th>
+      </tr>
+      <tr><td>XS</td><td>34"</td><td>86cm</td><td>65cm</td></tr>
+      <tr><td>S</td><td>36"</td><td>91cm</td><td>67cm</td></tr>
+      <tr><td>M</td><td>38"</td><td>97cm</td><td>70cm</td></tr>
+      <tr><td>L</td><td>40"</td><td>102cm</td><td>72cm</td></tr>
+      <tr><td>XL</td><td>42"</td><td>107cm</td><td>75cm</td></tr>
+      <tr><td>XXL</td><td>44"</td><td>112cm</td><td>77cm</td></tr>
+      <tr><td>3XL</td><td>46"</td><td>117cm</td><td>79cm</td></tr>
+    </table>
+    <div class="checkboxgroup">
+      <input type="checkbox" id="confirm" required>
+      <label for="confirm">I confirm the information is accurate and agree to the event terms and waiver.</label>
+    </div>
+    <div class="btngroup">
+      <button type="reset" class="resetbtn">Reset Form</button>
+      <button type="submit" class="submitbtn">Submit Form</button>
+    </div>
+  </form>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
