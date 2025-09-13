@@ -1,6 +1,6 @@
-# 📊 Learning Curve
+# 📊 Skill Building Projects
 
-> A collection of mini-projects created while exploring fundamental Python concepts and tools.  
+> A collection of mini-projects created while exploring fundamental languages, concepts and tools.  
 > Each of them was curated whilst learning different languages, exploring multiple libraries and domains.
 
 ---
