@@ -1,0 +1,85 @@
+<html>
+
+<head>
+    <title>Web Technology Showcase</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+
+    <header class="text-black p-6">
+        <h1 class="text-2xl md:text-3xl font-regular">Smart Travel Companion Dashboard</h1>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+            <!-- HTML5 Multimedia Card -->
+            <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col">
+                <h2 class="text-xl font-semibold mb-4 flex items-center">
+                    Travel MultiMedia
+                </h2>
+                <div class="flex-grow">
+                    <video controls class="w-full rounded-md mb-4">
+                        <source src="" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <audio controls class="w-full">
+                        <source src="" type="audio/ogg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+
+            <!-- Geolocation API Card -->
+            <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col">
+                <h2 class="text-xl font-semibold mb-4 flex items-center">
+                    Geolocation API
+                    <button id="getLocationBtn"
+                        class="ml-auto bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold py-1 px-3 rounded-full transition-colors">Get
+                        My Location</button>
+                </h2>
+                <div id="location" class="text-gray-700 flex-grow">
+                    Click the button to get your location.
+                </div>
+            </div>
+
+            <!-- Simulated Async Fetch Card -->
+            <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col">
+                <h2 class="text-xl font-semibold mb-4 flex items-center">
+                    Data Fetching
+                </h2>
+                <div class="flex-grow">
+                    <button id="fetchDataBtn"
+                        class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg mb-4 transition-colors">Fetch
+                        Data</button>
+                    <div id="asyncData" class="text-gray-700"></div>
+                </div>
+            </div>
+
+            <!-- XML to JSON Conversion Card -->
+            <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col">
+                <h2 class="text-xl font-semibold mb-4 flex items-center">
+                    XML to JSON Conversion
+                </h2>
+                <div class="flex-grow">
+                    <button id="convertBtn"
+                        class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg mb-4 transition-colors">Convert</button>
+                    <pre id="jsonData"
+                        class="bg-gray-200 p-0 rounded-md text-sm whitespace-pre-wrap overflow-x-auto"></pre>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="backend.js"></script>
+
+</body>
+
+</html>
