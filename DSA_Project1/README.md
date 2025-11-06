@@ -7,8 +7,9 @@ Design a simple calculator that can evaluate input expression of a certain size,
 - Input negative numbers
 
 
-* **Preparation:** We start with two empty stacks: one [numstack] to hold the numerical values (operands) and one [opstack] to hold the operators $(+, -, \times, /)$ and parentheses.
-* **The Scanner:** We begin scanning the input expression string character by character from left to right.
+**Workflow:**
+
+We start with two empty stacks: one [numstack] to hold the numerical values (operands) and one [opstack] to hold the operators $(+, -, \times, /)$ and parentheses. We begin scanning the input expression string character by character from left to right.
 
 As we scan each character, we decide what to do based on its type:
 
@@ -37,4 +38,4 @@ As we scan each character, we decide what to do based on its type:
 
 * **Cleanup:** Once the entire expression string has been scanned, there may be remaining operators and numbers in the stacks (e.g., from $10+5$).
 * **Final Loop:** We enter a final loop: while the **Operator Stack** is not empty, we repeat the basic operation steps (pop two numbers, pop the operator, apply, and push the result).
-* **The Answer:** When the **Operator Stack** is finally empty, the very last value remaining on the **Number Stack** is the final result of the entire expression. We pop and return this value.
+When the **Operator Stack** is finally empty, the very last value remaining on the **Number Stack** is the final result of the entire expression. We pop and return this value.
