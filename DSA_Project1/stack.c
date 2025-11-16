@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "calc.h"
 
 void pushNum(numstack *s, double val) {
@@ -19,4 +20,12 @@ char popOp(opstack *s) {
 
 char peekOp(opstack *s) {
     return s->data[s->top];
+}
+
+void pushNode(nodestack *s, Node* node) {
+    s->data[++(s->top)] = node;
+}
+
+Node* popNode(nodestack *s) {
+    return s->data[(s->top)--];
 }

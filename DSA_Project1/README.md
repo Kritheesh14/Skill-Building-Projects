@@ -1,3 +1,12 @@
+Give executable permission to `run.sh` :
+```bash
+chmod +x run.sh
+```
+
+Make sure GTK is installed on machine.
+
+---
+
 ##### Objective
 Design a simple calculator that can evaluate input expression of a certain size, which must include the workflow:
 - Input Expression
