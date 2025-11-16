@@ -1,15 +1,15 @@
 #ifndef CALC_H
 #define CALC_H
 
-#define MAX 100
+#define EXPR_MAX 100
 
 typedef struct {
-    double data[MAX];
+    double data[EXPR_MAX];
     int top;
 } numstack;
 
 typedef struct {
-    char data[MAX];
+    char data[EXPR_MAX];
     int top;
 } opstack;
 
@@ -20,7 +20,7 @@ typedef struct Node {
 } Node;
 
 typedef struct {
-    Node* data[MAX];
+    Node* data[EXPR_MAX];
     int top;
 } nodestack;
 

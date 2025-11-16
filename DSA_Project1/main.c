@@ -2,17 +2,45 @@
 #include <stdlib.h>
 #include <string.h>
 #include "calc.h"
+#include "gui.h"
 
-int main() {
-    char expr[MAX];
+int run_cli();
+
+int main(int argc, char *argv[]) {
+    int mode;
+    
+    printf("=== Expression Calculator ===\n");
+    printf("Select mode:\n");
+    printf("1. CLI (Command Line Interface)\n");
+    printf("2. GUI (Graphical User Interface)\n");
+    printf("Enter choice (1-2): ");
+    
+    if (scanf("%d", &mode) != 1) {
+        mode = 1; // Default to CLI
+    }
+    getchar();
+    
+    if (mode == 2) {
+        printf("Starting GUI mode...\n");
+        run_gui(argc, argv);
+    } else {
+        printf("Starting CLI mode...\n\n");
+        run_cli();
+    }
+    
+    return 0;
+}
+
+int run_cli() {
+    char expr[EXPR_MAX];
     int sizeLimit;
     int exprType;
 
-    printf("Set expression size limit (max %d): ", MAX);
+    printf("Set expression size limit (max %d): ", EXPR_MAX);
     scanf("%d", &sizeLimit);
     getchar();
 
-    if (sizeLimit > MAX) {
+    if (sizeLimit > EXPR_MAX) {
         printf("Error: Size exceeds maximum limit.\n");
         return 1;
     }
@@ -85,6 +113,6 @@ int main() {
         }
         printf("Result: %.2f\n", result);
     }
-
+    
     return 0;
 }
