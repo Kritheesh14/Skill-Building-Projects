@@ -55,94 +55,70 @@ int isOperator(char c) {
     return (c == '+' || c == '-' || c == '*' || c == '/');
 }
 
-Node* buildTreeFromInfix(const char *expr) {
-    nodestack nodes = {.top = -1};
+void infixToPostfix(const char *infix, char *postfix) {
     opstack ops = {.top = -1};
-    int i = 0, len = strlen(expr);
+    int i = 0, k = 0, len = strlen(infix);
 
     while (i < len) {
-        if (isspace(expr[i])) {
+        if (isspace(infix[i])) {
             i++;
             continue;
         }
 
-        if (expr[i] == '-' && (i == 0 || expr[i - 1] == '(')) {// expr[i] == '-' for case of unary minus
-            char numStr[20];
-            int j = 0;
-            numStr[j++] = '-';
+        if (infix[i] == '-' && (i == 0 || infix[i - 1] == '(')) {// unary minus
+            postfix[k++] = '-';
             i++;
 
-            while (i < len && (isdigit(expr[i]) || expr[i] == '.'))
-                numStr[j++] = expr[i++];
+            while (i < len && (isdigit(infix[i]) || infix[i] == '.'))
+                postfix[k++] = infix[i++];
 
-            numStr[j] = '\0';
-            pushNode(&nodes, createNode(numStr));
+            postfix[k++] = ' ';
             continue;
         }
 
-        if (isdigit(expr[i]) || expr[i] == '.') {
-            char numStr[20];
-            int j = 0;
+        if (isdigit(infix[i]) || infix[i] == '.') {
+            while (i < len && (isdigit(infix[i]) || infix[i] == '.'))
+                postfix[k++] = infix[i++];
 
-            while (i < len && (isdigit(expr[i]) || expr[i] == '.'))
-                numStr[j++] = expr[i++];
-
-            numStr[j] = '\0';
-            pushNode(&nodes, createNode(numStr));
+            postfix[k++] = ' ';
         }
-        else if (expr[i] == '(') {
-            pushOp(&ops, expr[i]);
+        else if (infix[i] == '(') {
+            pushOp(&ops, infix[i]);
             i++;
         }
-        else if (expr[i] == ')') {
+        else if (infix[i] == ')') {
             while (ops.top != -1 && peekOp(&ops) != '(') {
-                Node *right = popNode(&nodes);
-                Node *left = popNode(&nodes);
-                char op = popOp(&ops);
-                
-                char opStr[2] = {op, '\0'};
-                Node *opNode = createNode(opStr);
-                opNode->left = left;
-                opNode->right = right;
-                pushNode(&nodes, opNode);
+                postfix[k++] = popOp(&ops);
+                postfix[k++] = ' ';
             }
             popOp(&ops);
             i++;
         }
-        else {
-            while (ops.top != -1 && peekOp(&ops) != '(' && precedence(peekOp(&ops)) >= precedence(expr[i])) {
-                Node *right = popNode(&nodes);
-                Node *left = popNode(&nodes);
-                char op = popOp(&ops);
-                
-                char opStr[2] = {op, '\0'};
-                Node *opNode = createNode(opStr);
-                opNode->left = left;
-                opNode->right = right;
-                pushNode(&nodes, opNode);
+        else if (isOperator(infix[i])) {
+            while (ops.top != -1 && peekOp(&ops) != '(' && precedence(peekOp(&ops)) >= precedence(infix[i])) {
+                postfix[k++] = popOp(&ops);
+                postfix[k++] = ' ';
             }
-            pushOp(&ops, expr[i]);
+            pushOp(&ops, infix[i]);
+            i++;
+        }
+        else {
             i++;
         }
     }
 
     while (ops.top != -1) {
-        Node *right = popNode(&nodes);
-        Node *left = popNode(&nodes);
-        char op = popOp(&ops);
-        
-        char opStr[2] = {op, '\0'};
-        Node *opNode = createNode(opStr);
-        opNode->left = left;
-        opNode->right = right;
-        pushNode(&nodes, opNode);
+        postfix[k++] = popOp(&ops);
+        postfix[k++] = ' ';
     }
 
-    return popNode(&nodes);
+    postfix[k] = '\0';
 }
 
-double eval(const char *expr) {
-    Node *tree = buildTreeFromInfix(expr);
+double eval_Infix(const char *expr) {
+    char postfix[EXPR_MAX * 2];
+    infixToPostfix(expr, postfix);
+    Node *tree = buildTreeFromPostfix(postfix);
     double result = evaluateTree(tree);
     freeTree(tree);
     return result;

@@ -31,13 +31,13 @@ double applyOp(double a, double b, char op);
 int isOperator(char c);
 
 Node* createNode(const char *data);
-Node* buildTreeFromInfix(const char *expr);
+void infixToPostfix(const char *infix, char *postfix);
 Node* buildTreeFromPostfix(const char *expr);
 Node* buildTreeFromPrefix(const char *expr);
 double evaluateTree(Node *root);
 void freeTree(Node *root);
 
-double eval(const char *expr);
+double eval_Infix(const char *expr);
 double evalPostfix(const char *expr);
 double evalPrefix(const char *expr);
 

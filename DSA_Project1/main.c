@@ -91,7 +91,7 @@ int run_cli() {
                     result = evalPrefix(expr);
                     break;
                 default:
-                    result = eval(expr);
+                    result = eval_Infix(expr);
                     break;
             }
             printf("%s = %.2f\n", expr, result);
@@ -108,7 +108,7 @@ int run_cli() {
                 result = evalPrefix(expr);
                 break;
             default:
-                result = eval(expr);
+                result = eval_Infix(expr);
                 break;
         }
         printf("Result: %.2f\n", result);
