@@ -5,6 +5,36 @@
 #include <math.h>
 #include "calc.h"
 
+Node* createNode(const char *data) {
+    Node *newNode = (Node*)malloc(sizeof(Node));
+    strcpy(newNode->data, data);
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+void freeTree(Node *root) {
+    if (root == NULL) return;
+    freeTree(root->left);
+    freeTree(root->right);
+    free(root);
+}
+
+double evaluateTree(Node *root) {
+    if (root == NULL) return 0;
+    
+    // operand is leaf node
+    if (root->left == NULL && root->right == NULL) {
+        return atof(root->data);
+    }
+    
+    // recursive evaluation
+    double leftVal = evaluateTree(root->left);
+    double rightVal = evaluateTree(root->right);
+    
+    return applyOp(leftVal, rightVal, root->data[0]);
+}
+
 int precedence(char op) {
     if (op == '+' || op == '-') return 1;
     if (op == '*' || op == '/') return 2;
@@ -25,79 +55,77 @@ int isOperator(char c) {
     return (c == '+' || c == '-' || c == '*' || c == '/');
 }
 
-double eval(const char *expr) {
-    numstack values = {.top = -1};
+void infixToPostfix(const char *infix, char *postfix) {
     opstack ops = {.top = -1};
-    int i = 0, len = strlen(expr);
+    int i = 0, k = 0, len = strlen(infix);
 
     while (i < len) {
-        if (isspace(expr[i])) {
+        if (isspace(infix[i])) {
             i++;
             continue;
         }
 
-        if (expr[i] == '-' && (i == 0 || expr[i - 1] == '(')) {// expr[i] == '-' for case of unary minus
-            char numStr[20];
-            int j = 0;
-            numStr[j++] = '-';
+        if (infix[i] == '-' && (i == 0 || infix[i - 1] == '(')) {// unary minus
+            postfix[k++] = '-';
             i++;
 
-            while (i < len && (isdigit(expr[i]) || expr[i] == '.'))
-                numStr[j++] = expr[i++];
+            while (i < len && (isdigit(infix[i]) || infix[i] == '.'))
+                postfix[k++] = infix[i++];
 
-            numStr[j] = '\0';
-            pushNum(&values, atof(numStr));
+            postfix[k++] = ' ';
             continue;
         }
 
-        if (isdigit(expr[i]) || expr[i] == '.') {
-            char numStr[20];
-            int j = 0;
+        if (isdigit(infix[i]) || infix[i] == '.') {
+            while (i < len && (isdigit(infix[i]) || infix[i] == '.'))
+                postfix[k++] = infix[i++];
 
-            while (i < len && (isdigit(expr[i]) || expr[i] == '.'))
-                numStr[j++] = expr[i++];
-
-            numStr[j] = '\0';
-            pushNum(&values, atof(numStr));
+            postfix[k++] = ' ';
         }
-        else if (expr[i] == '(') {
-            pushOp(&ops, expr[i]);
+        else if (infix[i] == '(') {
+            pushOp(&ops, infix[i]);
             i++;
         }
-        else if (expr[i] == ')') {
+        else if (infix[i] == ')') {
             while (ops.top != -1 && peekOp(&ops) != '(') {
-                double b = popNum(&values);
-                double a = popNum(&values);
-                char op = popOp(&ops);
-                pushNum(&values, applyOp(a, b, op));
+                postfix[k++] = popOp(&ops);
+                postfix[k++] = ' ';
             }
             popOp(&ops);
             i++;
         }
-        else {
-            while (ops.top != -1 && precedence(peekOp(&ops)) >= precedence(expr[i])) {
-                double b = popNum(&values);
-                double a = popNum(&values);
-                char op = popOp(&ops);
-                pushNum(&values, applyOp(a, b, op));
+        else if (isOperator(infix[i])) {
+            while (ops.top != -1 && peekOp(&ops) != '(' && precedence(peekOp(&ops)) >= precedence(infix[i])) {
+                postfix[k++] = popOp(&ops);
+                postfix[k++] = ' ';
             }
-            pushOp(&ops, expr[i]);
+            pushOp(&ops, infix[i]);
+            i++;
+        }
+        else {
             i++;
         }
     }
 
     while (ops.top != -1) {
-        double b = popNum(&values);
-        double a = popNum(&values);
-        char op = popOp(&ops);
-        pushNum(&values, applyOp(a, b, op));
+        postfix[k++] = popOp(&ops);
+        postfix[k++] = ' ';
     }
 
-    return popNum(&values);
+    postfix[k] = '\0';
 }
 
-double evalPostfix(const char *expr) {
-    numstack values = {.top = -1};
+double eval_Infix(const char *expr) {
+    char postfix[EXPR_MAX * 2];
+    infixToPostfix(expr, postfix);
+    Node *tree = buildTreeFromPostfix(postfix);
+    double result = evaluateTree(tree);
+    freeTree(tree);
+    return result;
+}
+
+Node* buildTreeFromPostfix(const char *expr) {
+    nodestack nodes = {.top = -1};
     int i = 0, len = strlen(expr);
 
     while (i < len) {
@@ -118,12 +146,17 @@ double evalPostfix(const char *expr) {
                 numStr[j++] = expr[i++];
 
             numStr[j] = '\0';
-            pushNum(&values, atof(numStr));
+            pushNode(&nodes, createNode(numStr));
         }
         else if (isOperator(expr[i])) {
-            double b = popNum(&values);
-            double a = popNum(&values);
-            pushNum(&values, applyOp(a, b, expr[i]));
+            Node *right = popNode(&nodes);
+            Node *left = popNode(&nodes);
+            
+            char opStr[2] = {expr[i], '\0'};
+            Node *opNode = createNode(opStr);
+            opNode->left = left;
+            opNode->right = right;
+            pushNode(&nodes, opNode);
             i++;
         }
         else {
@@ -131,11 +164,18 @@ double evalPostfix(const char *expr) {
         }
     }
 
-    return popNum(&values);
+    return popNode(&nodes);
 }
 
-double evalPrefix(const char *expr) {
-    numstack values = {.top = -1};
+double evalPostfix(const char *expr) {
+    Node *tree = buildTreeFromPostfix(expr);
+    double result = evaluateTree(tree);
+    freeTree(tree);
+    return result;
+}
+
+Node* buildTreeFromPrefix(const char *expr) {
+    nodestack nodes = {.top = -1};
     int len = strlen(expr);
     int i = len - 1;
 
@@ -166,12 +206,17 @@ double evalPrefix(const char *expr) {
             }
 
             numStr[j] = '\0';
-            pushNum(&values, atof(numStr));
+            pushNode(&nodes, createNode(numStr));
         }
         else if (isOperator(expr[i])) {
-            double a = popNum(&values);
-            double b = popNum(&values);
-            pushNum(&values, applyOp(a, b, expr[i]));
+            Node *left = popNode(&nodes);
+            Node *right = popNode(&nodes);
+            
+            char opStr[2] = {expr[i], '\0'};
+            Node *opNode = createNode(opStr);
+            opNode->left = left;
+            opNode->right = right;
+            pushNode(&nodes, opNode);
             i--;
         }
         else {
@@ -179,5 +224,12 @@ double evalPrefix(const char *expr) {
         }
     }
 
-    return popNum(&values);
+    return popNode(&nodes);
+}
+
+double evalPrefix(const char *expr) {
+    Node *tree = buildTreeFromPrefix(expr);
+    double result = evaluateTree(tree);
+    freeTree(tree);
+    return result;
 }

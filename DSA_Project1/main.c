@@ -15,8 +15,8 @@ int main(int argc, char *argv[]) {
     printf("2. GUI (Graphical User Interface)\n");
     printf("Enter choice (1-2): ");
     
-    if (scanf("%d", &mode) != 1) {
-        mode = 1; // Default to CLI
+    if (scanf("%d", &mode) != 1) { // Defaults to CLI
+        mode = 1; 
     }
     getchar();
     
@@ -91,7 +91,7 @@ int run_cli() {
                     result = evalPrefix(expr);
                     break;
                 default:
-                    result = eval(expr);
+                    result = eval_Infix(expr);
                     break;
             }
             printf("%s = %.2f\n", expr, result);
@@ -108,7 +108,7 @@ int run_cli() {
                 result = evalPrefix(expr);
                 break;
             default:
-                result = eval(expr);
+                result = eval_Infix(expr);
                 break;
         }
         printf("Result: %.2f\n", result);

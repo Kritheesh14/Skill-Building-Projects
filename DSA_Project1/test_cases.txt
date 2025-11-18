@@ -1,0 +1,11 @@
+=== Infix Expressions ===
+3+5*2 = 13.00
+(10+5)*2-3 = 27.00
+
+=== Postfix Expressions ===
+3 5 2 * + = 13.00
+10 5 + 2 * 3 - = 3
+
+=== Prefix Expressions ===
++ 3 * 5 2 = 13.00
+- * + 10 5 2 3 = 27.00

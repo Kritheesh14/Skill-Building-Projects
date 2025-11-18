@@ -54,7 +54,7 @@ static void on_calculate_clicked(GtkWidget *widget, gpointer data) {
             result = evalPrefix(expr);
             break;
         default:
-            result = eval(expr);
+            result = eval_Infix(expr);
             break;
     }
     
@@ -113,7 +113,7 @@ static void on_file_open_clicked(GtkWidget *widget, gpointer data) {
                     result = evalPrefix(expr);
                     break;
                 default:
-                    result = eval(expr);
+                    result = eval_Infix(expr);
                     break;
             }
             
