@@ -4,11 +4,6 @@
 #define EXPR_MAX 100
 
 typedef struct {
-    double data[EXPR_MAX];
-    int top;
-} numstack;
-
-typedef struct {
     char data[EXPR_MAX];
     int top;
 } opstack;
@@ -24,9 +19,6 @@ typedef struct {
     int top;
 } nodestack;
 
-void pushNum(numstack *s, double val);
-double popNum(numstack *s);
-
 void pushOp(opstack *s, char op);
 char popOp(opstack *s);
 char peekOp(opstack *s);
@@ -38,7 +30,14 @@ int precedence(char op);
 double applyOp(double a, double b, char op);
 int isOperator(char c);
 
-double eval(const char *expr);
+Node* createNode(const char *data);
+void infixToPostfix(const char *infix, char *postfix);
+Node* buildTreeFromPostfix(const char *expr);
+Node* buildTreeFromPrefix(const char *expr);
+double evaluateTree(Node *root);
+void freeTree(Node *root);
+
+double eval_Infix(const char *expr);
 double evalPostfix(const char *expr);
 double evalPrefix(const char *expr);
 
